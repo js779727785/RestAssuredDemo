@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.junit.Test;
+import sun.jvm.hotspot.oops.ObjArray;
 
 /*
  * [
@@ -38,6 +40,33 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  */
 
 public class CreateJsonArrayUsingJacksonAPI {
+    @Test
+    public void Demo() throws JsonProcessingException{
+        ObjectMapper obm=new ObjectMapper();
+        ObjectNode obn=obm.createObjectNode();
+        obn.put("a",1);
+        obn.put("b",2);
+        ObjectNode obn2=obm.createObjectNode();
+        obn2.set("other",obn);
+        obn2.put("c",4);
+        String res=obm.writerWithDefaultPrettyPrinter().writeValueAsString(obn2);
+//        System.out.print(res);
+        ArrayNode oblis=obm.createArrayNode();
+        oblis.add(obn2);
+        oblis.add(obn);
+//        oblis.addAll(Arrays.asList(obn2,obn));
+        System.out.println(obm.writerWithDefaultPrettyPrinter().writeValueAsString(oblis));
+        System.out.println(oblis.get(0));
+        System.out.println(oblis.size());
+        Iterator<JsonNode> v=oblis.elements();
+        while (v.hasNext()){
+            System.out.println(v.next());
+        }
+        Iterator<String> k =oblis.fieldNames();
+        while (k.hasNext()){
+            System.out.println(k.next());
+        }
+    }
 
     public static void main(String[] args) throws JsonProcessingException {
 
@@ -126,5 +155,7 @@ public class CreateJsonArrayUsingJacksonAPI {
         System.out.println("After removing all elements from array : "+ objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(parentArray));
 
     }
+
+
 
 }
