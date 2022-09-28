@@ -7,6 +7,22 @@ import io.restassured.RestAssured;
 import org.hamcrest.Matchers;
 
 public class BDDStyleGetRequestTest {
+//    参数化URL，两种方式
+//    @Test
+//    public void pathVariable4()
+//    {
+//        RestAssured
+//                .given()
+//                .log()
+//                .all()
+//                .pathParam("resourcePath", "booking")
+//                .when()
+//                .get("https://restful-booker.herokuapp.com/{resourcePath}/{bookingId}",10)
+//                .then()
+//                .log()
+//                .all();
+//    }
+
     @Test
     public void NoBDDRequest(){
 
