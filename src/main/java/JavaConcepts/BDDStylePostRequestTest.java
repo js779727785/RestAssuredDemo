@@ -1,6 +1,8 @@
 package JavaConcepts;
 
 import io.restassured.RestAssured;
+import io.restassured.config.HttpClientConfig;
+import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
@@ -37,4 +39,27 @@ public class BDDStylePostRequestTest {
                 .then()
                 .statusCode(200);
     }
+    //设置超时时间
+    @Test
+    void case2(){
+        // 自定义HttpClientConfig对象
+        // 设置响应超时时长为3秒，单位是毫秒
+        HttpClientConfig clientConfig = HttpClientConfig
+                .httpClientConfig()
+                .setParam("http.socket.timeout", 3000);
+        // 定义RestAssuredConfig对象
+        // 传入自定义的HttpClientConfig对象
+        RestAssuredConfig myTimeout = RestAssuredConfig
+                .config()
+                .httpClient(clientConfig);
+
+        // 接口调用
+        RestAssured.given()
+                .config(myTimeout)  // 设置超时处理
+                .when()
+                .get("/delay/10")  // 特定接口，延迟10秒响应
+                .then()
+                .statusCode(200);  // 响应断言
+    }
+
 }
